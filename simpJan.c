@@ -11,7 +11,8 @@
 #define alocas(t, q) ((t*)malloc((q) * sizeof(t)))
 #define aloca(t) alocas(t, 1)
 
-#endif \\ #ifndef SIMP_JAN_ALOCACAO_H#ifndef SIMP_JAN_WSTR_C
+#endif // #ifndef SIMP_JAN_ALOCACAO_H
+#ifndef SIMP_JAN_WSTR_C
 #define SIMP_JAN_WSTR_C
 
 #include <wchar.h>
@@ -26,13 +27,16 @@ wchar_t *strToWstr(char *_str) {
   return ret;
 }
 
-#endif \\ #ifndef SIMP_JAN_WSTR_C
+#endif // #ifndef SIMP_JAN_WSTR_C
+
 #ifndef SIMP_JAN_TIPOS_BASICOS_H
 #define SIMP_JAN_TIPOS_BASICOS_H
 
+typedef HINSTANCE sj_Id;
+
 typedef struct ConfiguracoesJanelaStruct {
   wchar_t *classeJanela;
-  HINSTANCE instancia;
+  sj_Id instancia;
   wchar_t *tituloJanela;
   int iniX;
   int iniY;
@@ -41,37 +45,75 @@ typedef struct ConfiguracoesJanelaStruct {
   DWORD estilo;
 } ConfiguracoesJanela;
 
-typedef HWND Janela;
+typedef HWND sj_Janela;
 
-#endif \\ #ifndef SIMP_JAN_TIPOS_BASICOS_H
+#endif // #ifndef SIMP_JAN_TIPOS_BASICOS_H
+
 #ifndef SIMP_JAN_RETORNO_BASE_H
 #define SIMP_JAN_RETORNO_BASE_H
 
 #include <windows.h>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow);
+
+int manipulaEventosJanela(sj_Janela, UINT, WPARAM, LPARAM);
+int mainSimplesmenteJanela(sj_Id, char *, int);
 
 #ifndef SIMP_JAN_RETORNO_BASE_C
 #define SIMP_JAN_RETORNO_BASE_C
 
-\*
+#ifndef SIMP_JAN_ALOCACAO_H
+#define SIMP_JAN_ALOCACAO_H
+
+#include <stdlib.h>
+
+#define alocas(t, q) ((t*)malloc((q) * sizeof(t)))
+#define aloca(t) alocas(t, 1)
+
+#endif // #ifndef SIMP_JAN_ALOCACAO_H
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-  if (msg == WM_DESTROY)
-      PostQuitMessage(0);
+  if (manipulaEventosJanela(hwnd, msg, wParam, lParam))
+    switch (msg) {
+      case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    }
 
   return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
-*\
-#endif \\ #ifndef SIMP_JAN_RETORNO_BASE_C
-#endif \\ #ifndef SIMP_JAN_RETORNO_BASE_H#ifndef SIMP_JAN_CONF_JAN_H
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
+  /*int tamBuff = 0;
+  tamBuff = WideCharToMultiByte(CP_ACP, 0, pCmdLine, -1, NULL, 0, NULL, NULL);
+  if (tamBuff == 0)
+    return -2;
+  char *argvCmd = NULL;
+  argvCmd = alocas(char, tamBuff);
+  if (argvCmd == NULL)
+    return -3;
+  if (tamBuff != WideCharToMultiByte(CP_ACP, 0, pCmdLine, -1, argvCmd, tamBuff, NULL, NULL)) {
+    free(argvCmd);
+    return -4;
+  }*/
+  return mainSimplesmenteJanela(hInstance, pCmdLine, nCmdShow);
+}
+
+#endif // #ifndef SIMP_JAN_RETORNO_BASE_C
+
+#endif // #ifndef SIMP_JAN_RETORNO_BASE_H
+#ifndef SIMP_JAN_CONF_JAN_H
 #define SIMP_JAN_CONF_JAN_H
 
 #ifndef SIMP_JAN_TIPOS_BASICOS_H
 #define SIMP_JAN_TIPOS_BASICOS_H
 
+typedef HINSTANCE sj_Id;
+
 typedef struct ConfiguracoesJanelaStruct {
   wchar_t *classeJanela;
-  HINSTANCE instancia;
+  sj_Id instancia;
   wchar_t *tituloJanela;
   int iniX;
   int iniY;
@@ -80,9 +122,10 @@ typedef struct ConfiguracoesJanelaStruct {
   DWORD estilo;
 } ConfiguracoesJanela;
 
-typedef HWND Janela;
+typedef HWND sj_Janela;
 
-#endif \\ #ifndef SIMP_JAN_TIPOS_BASICOS_H
+#endif // #ifndef SIMP_JAN_TIPOS_BASICOS_H
+
 #include <windows.h>
 
 ConfiguracoesJanela *criaConfiguracoesJanela(HINSTANCE instancia, char *classe, char *titulo, int largura, int altura);
@@ -127,19 +170,21 @@ void defineTituloJanela(ConfiguracoesJanela *config, char *titulo) {
   config->tituloJanela = strToWstr(titulo);
 }
 
-#endif \\ #ifndef SIMP_JAN_CONF_JAN_C
-#endif \\ #ifndef SIMP_JAN_CONF_JAN_H#ifndef SIMP_JAN_JANELAS_H
+#endif // #ifndef SIMP_JAN_CONF_JAN_C
+
+#endif // #ifndef SIMP_JAN_CONF_JAN_H
+#ifndef SIMP_JAN_JANELAS_H
 #define SIMP_JAN_JANELAS_H
 
 
-Janela criaJanela(ConfiguracoesJanela *config);
-int executaJanela(Janela jan);
+sj_Janela criaJanela(ConfiguracoesJanela *config);
+int executaJanela(sj_Janela jan);
 
 #ifndef SIMP_JAN_JANELAS_C
 #define SIMP_JAN_JANELAS_C
 
 
-Janela criaJanela(ConfiguracoesJanela *config) {
+sj_Janela criaJanela(ConfiguracoesJanela *config) {
   WNDCLASSW wc;
 
   wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -158,7 +203,7 @@ Janela criaJanela(ConfiguracoesJanela *config) {
                 config->iniX, config->iniY, config->largura, config->altura, NULL, NULL, config->instancia, NULL);  
 }
 
-int executaJanela(Janela jan) {
+int executaJanela(sj_Janela jan) {
   MSG  msg;
   ShowWindow((HWND) jan, SW_SHOWDEFAULT);
   UpdateWindow((HWND) jan);
@@ -171,6 +216,8 @@ int executaJanela(Janela jan) {
   return (int) msg.wParam;
 }
 
-#endif \\ #ifndef SIMP_JAN_JANELAS_C
-#endif \\ #ifndef SIMP_JAN_JANELAS_H
-#endif \\ #ifndef SIMP_JAN_H
+#endif // #ifndef SIMP_JAN_JANELAS_C
+
+#endif // #ifndef SIMP_JAN_JANELAS_H
+
+#endif // #ifndef SIMP_JAN_H
