@@ -1,9 +1,11 @@
 #ifndef SIMP_JAN_TIPOS_BASICOS_H
 #define SIMP_JAN_TIPOS_BASICOS_H
 
+typedef HINSTANCE sj_Id;
+
 typedef struct ConfiguracoesJanelaStruct {
   wchar_t *classeJanela;
-  HINSTANCE instancia;
+  sj_Id instancia;
   wchar_t *tituloJanela;
   int iniX;
   int iniY;
@@ -12,6 +14,6 @@ typedef struct ConfiguracoesJanelaStruct {
   DWORD estilo;
 } ConfiguracoesJanela;
 
-typedef HWND Janela;
+typedef HWND sj_Janela;
 
 #endif // #ifndef SIMP_JAN_TIPOS_BASICOS_H

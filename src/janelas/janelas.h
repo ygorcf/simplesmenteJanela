@@ -3,8 +3,8 @@
 
 #include "../tipos/tiposBasicos.h"
 
-Janela criaJanela(ConfiguracoesJanela *config);
-int executaJanela(Janela jan);
+sj_Janela criaJanela(ConfiguracoesJanela *config);
+int executaJanela(sj_Janela jan);
 
 #include "janelas.c"
 

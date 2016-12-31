@@ -3,7 +3,7 @@
 
 #include "janelas.h"
 
-Janela criaJanela(ConfiguracoesJanela *config) {
+sj_Janela criaJanela(ConfiguracoesJanela *config) {
   WNDCLASSW wc;
 
   wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -22,7 +22,7 @@ Janela criaJanela(ConfiguracoesJanela *config) {
                 config->iniX, config->iniY, config->largura, config->altura, NULL, NULL, config->instancia, NULL);  
 }
 
-int executaJanela(Janela jan) {
+int executaJanela(sj_Janela jan) {
   MSG  msg;
   ShowWindow((HWND) jan, SW_SHOWDEFAULT);
   UpdateWindow((HWND) jan);
