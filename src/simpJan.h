@@ -8,6 +8,10 @@
 
 #include "./tipos/tiposBasicos.h"
 
+#include "./string/sj_string.h"
+
+#include "./interpretador/interpretador.h"
+
 #include "./janelas/retornoBase.h"
 #include "./janelas/configuracoesJanela.h"
 #include "./janelas/janelas.h"
