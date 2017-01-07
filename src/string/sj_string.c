@@ -61,4 +61,14 @@ char *sj_strCopia(char *_str) {
   return ret;
 }
 
+int sj_strEInt(char *_str) {
+  char *temp = _str;
+  while (*temp != '\0') {
+    if (isdigit(*temp) == 0 && *temp != '0')
+      return 0;
+    temp++;
+  }
+  return 1;
+}
+
 #endif // #ifndef SIMP_JAN_STRING_C
