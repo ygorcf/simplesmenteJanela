@@ -10,10 +10,10 @@
 
 #include "./string/sj_string.h"
 
-#include "./interpretador/interpretador.h"
-
 #include "./janelas/retornoBase.h"
 #include "./janelas/configuracoesJanela.h"
 #include "./janelas/janelas.h"
+
+#include "./interpretador/interpretador.h"
 
 #endif // #ifndef SIMP_JAN_H
