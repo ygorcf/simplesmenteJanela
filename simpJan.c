@@ -505,6 +505,7 @@ sj_Janela *obterJanelas(sj_Id idProcesso, char *configuracoes) {
     ConfiguracoesJanela *conf = criaConfiguracoesJanela(idProcesso, classe, titulo, larg, alt);
     ret[qtdjan - 1] = criaJanela(conf);
     ret[qtdjan++] = NULL;
+    a++;
   }
   return ret;
 }
