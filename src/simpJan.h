@@ -1,7 +1,11 @@
 #ifndef SIMP_JAN_H
 #define SIMP_JAN_H
 
+#ifdef WIN32
 #include <windows.h>
+#else
+#include <X11/Xlib.h>
+#endif // #ifdef WIN32
 
 #include "./recursos/alocacao.h"
 #include "./recursos/wstr.c"
