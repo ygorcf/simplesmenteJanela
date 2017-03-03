@@ -2,6 +2,7 @@
 #define SIMP_JAN_JANELAS_H
 
 #include "../tipos/tiposBasicos.h"
+#include "dialogos.h"
 
 sj_Janela criaJanela(ConfiguracoesJanela *config);
 int executaJanela(sj_Janela jan);
