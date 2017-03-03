@@ -140,7 +140,7 @@ WS_SYSMENU | WS_VISIBLE | WS_OVERLAPPED | DS_MODALFRAME | DS_3DLOOK ;
        lpw   += nchar;
        *lpw++ = 0;              // no creation data
 
-/*
+
        //-----------------------
        // Define a static text control.
        //-----------------------
@@ -157,10 +157,10 @@ WS_SYSMENU | WS_VISIBLE | WS_OVERLAPPED | DS_MODALFRAME | DS_3DLOOK ;
     *lpw++ = 0x0082;        // Static class
 
     lpwsz = (LPWSTR)lpw;
-    nchar = 1 + MultiByteToWideChar(CP_ACP, 0, lpszMessage, -1, lpwsz, 150);
+    nchar = 1 + MultiByteToWideChar(CP_ACP, 0, msg, -1, lpwsz, 150);
     lpw += nchar;
     *lpw++ = 0;             // No creation data
-*/
+
 
        //-----------------------
        // Define a EDIT.
